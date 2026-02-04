@@ -12,8 +12,15 @@ class App(tk.Tk):
         super().__init__()
         self.title("autograder")
         self.attributes("-fullscreen", True)
+
+        # Center textbox
         self.textbox = Center_textbox(self)
         self.textbox.grid(column=1, row=1, sticky="nsew")
+       
+        # Left listbox
+        self.listbox = Student_list_frame(self)
+        self.listbox.grid(column=0, row=1, sticky="nsew")
+
 
  
         #Configure grid
@@ -29,29 +36,18 @@ class App(tk.Tk):
         top_right_button_frame = Top_right_buttons_frame(self)
         top_right_button_frame.grid(column=2, row=0)
 
-        # list of students
-        student_list_frame = Student_list_frame(self)
-        student_list_frame.grid(column=0, row=1, sticky="nsew")
-
         #rubrics container
         rubrics_box = Rubrics_box(self)
         rubrics_box.grid(column=2, row=1, sticky="nsew")
-                
-        self.bind('<Escape>', lambda e: self.destroy())
-    
-    def load_file(self):
-        file_path = filedialog.askopenfilename()
-        if not file_path:
-            return
-        if os.path.basename(file_path)[-3:] != ".py":
-            self.textbox.set_text("Wrong file type")
-            return
-        
-        with open(file_path, "r") as f:
-            content = f.read()
-            self.textbox.set_text(content)
-            return
 
+        #exit app with esc        
+        self.bind('<Escape>', lambda e: self.destroy())
+
+    def load_folder(self):
+        folder_path = filedialog.askdirectory()
+        if folder_path:
+            self.listbox.list_folder_content(folder_path)
+            return    
 
 
 if __name__=="__main__":
