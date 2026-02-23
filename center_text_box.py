@@ -18,7 +18,7 @@ class Center_textbox(ttk.Frame):
     insertbackground="white")          
         self.text.pack(expand=True, fill="both")
        
-
+       
     def set_text(self, content):
         self.text.delete("1.0", tk.END)
         self.text.insert(tk.END, content)

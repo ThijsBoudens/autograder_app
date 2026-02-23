@@ -1,0 +1,24 @@
+{
+	"rubrics": {
+		"Question 1": {
+			"Rubric 1": {
+				"title": "is odd number",
+				"points": 5
+			}, 
+			"Rubric 2": {
+				"title": "<enter title here>",
+				"points": 2
+			}
+		}, 
+		"Question 2": {
+			"Rubric 1": {
+				"title": "is even number",
+				"points": 3
+			}, 
+			"Rubric 2": {
+				"title": "<enter title here>",
+				"points": 4
+			}
+		}
+	}
+}
