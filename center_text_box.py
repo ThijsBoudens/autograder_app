@@ -31,13 +31,14 @@ class Center_textbox(ttk.Frame):
         for kw in keywords:
             self.text.tag_add("keyword", f"{kw[0]}.{kw[1]}", f"{kw[0]}.{kw[2]}")
 
+
         # highlight strings, comments, operators
         for token in tokens:
-            if token.type == 3:
+            if token.type == tokenize.STRING:
                 self.text.tag_add("string", f"{token.start[0]}.{token.start[1]}", f"{token.end[0]}.{token.end[1]}")
-            if token.type == 60:
+            if token.type == tokenize.COMMENT:
                 self.text.tag_add("comment", f"{token.start[0]}.{token.start[1]}", f"{token.end[0]}.{token.end[1]}")
-            if token.type == 54:
+            if token.type == tokenize.OP:
                 self.text.tag_add("operator", f"{token.start[0]}.{token.start[1]}", f"{token.end[0]}.{token.end[1]}")
         
         # configure highlight colors
@@ -45,4 +46,3 @@ class Center_textbox(ttk.Frame):
         self.text.tag_config("string", foreground="#FFAA00")
         self.text.tag_config("comment", foreground="#6C6C6C")
         self.text.tag_config("operator", foreground="#EEFF00")
-

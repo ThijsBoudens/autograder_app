@@ -3,15 +3,17 @@ class Student():
         self.name = name
         self.points_per_question = {}
         self.failed_rubrics = {}
-        self.total_score = 0
+        self.grade = None
         self.been_graded = False
+        self.questions = {}
+        self.pending = False
     
-    def set_score(self):
+    def set_grade(self):
         total_points = 0
         for point in self.points_per_question.values():
             total_points += point
-        self.total_score += total_points
-    
+        self.grade = total_points
+        
     def set_points_per_question(self, question, points):
         if question not in self.points_per_question:
             self.points_per_question[question] = 0
@@ -23,3 +25,18 @@ class Student():
             self.failed_rubrics[question] = failed_rubrics_list
         # self.failed_rubrics[question].append(rubric.rubric_title)
         
+    def get_question(self,question_id):
+        if question_id in self.questions:
+            return self.questions[question_id]
+        else:
+            print("question not found")
+    
+    def set_questions(self, questions):
+        self.questions = questions
+
+    def return_record(self):
+        record = f"{self.name}"
+        for question in self.questions:
+            record += f", {self.points_per_question[question]}, {self.failed_rubrics[question]}"
+        record +=  f", {sum(self.points_per_question.values())}"
+        return record

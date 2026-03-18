@@ -24,7 +24,7 @@ class Student_list_frame(ttk.Frame):
         for file in files:
             if file[-3:] == ".py":
                 self.listbox.insert("end", file)
-        self.listbox.bind('<<ListboxSelect>>', lambda e: (self.get_file_content(folder_path), self.get_student_name(), self.finish_student()))
+        self.listbox.bind('<<ListboxSelect>>', lambda e: (self.get_file_content(folder_path), self.get_student_name(), self.highlight_student(), self.update_questions_frame()))
 
 
 
@@ -42,10 +42,20 @@ class Student_list_frame(ttk.Frame):
         name = self.listbox.get(selected_indice)[:-3]
         self.container.set_current_student(name)
 
-    def finish_student(self):
+    def highlight_student(self):
         for i, student_name in enumerate(self.listbox.get(0, tk.END)):
             student_name = student_name[:-3]
             if student_name in self.container.students:
-                if self.container.students[student_name].been_graded == True:
+                student = self.container.students[student_name]
+                if student.been_graded == True:
                     self.listbox.itemconfig(i, {"bg":"chartreuse1"})
+                
+                elif student.been_graded == False and student.pending == True:
+                    self.listbox.itemconfig(i, {"bg":"DarkGoldenRod1"})
+
+                else:
+                    pass
+   
+    def update_questions_frame(self):
+        self.container.update_questions_frame()         
 
