@@ -33,22 +33,22 @@ class Rubric_widget(ttk.Frame):
         self.fail_button.grid(row=2, column=1, pady=5)
 
 
-    def mark_pass(self):
+    #update=True. Set to False to avoid infinite loop (update views that update this that update views etc.)    
+    def mark_pass(self, update=True):
         self.pass_button.config(bg="chartreuse2")
         self.fail_button.config(bg="SystemButtonFace")
         self.pass_state = True
-        self.controller.current_student.questions[self.question_ID].rubrics[self.rubric_ID].pass_state = self.pass_state
-        self.controller.current_student.pending = True
-        return
+        self.controller.get_selected_student().questions[self.question_ID].rubrics[self.rubric_ID].passed = self.pass_state
+        if update:
+            self.controller.update_views(None)
 
-    def mark_fail(self):
+    def mark_fail(self, update=True):
         self.pass_button.config(bg="SystemButtonFace")
         self.fail_button.config(bg="crimson")
         self.pass_state = False
-        self.controller.current_student.questions[self.question_ID].rubrics[self.rubric_ID].pass_state = self.pass_state
-        self.controller.current_student.pending = True
-        return
-         
+        self.controller.get_selected_student().questions[self.question_ID].rubrics[self.rubric_ID].passed = self.pass_state
+        if update:
+            self.controller.update_views(None)
     
     def reset(self):
         self.pass_button.config(bg="SystemButtonFace")

@@ -15,22 +15,15 @@ import json
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
+
+        self.init_visuals()
+        self.init_variables()
+
+
+    def init_visuals(self):
         self.title("autograder")
         self.screen_width = self.winfo_screenwidth()
         self.height = self.winfo_screenheight()
-
-        self.students = {}
-        self.current_student = None
-
-        self.questions = {}
-        self.current_question = None
-
-        self.student_rubric_state = {}
-
-
-        self.max_points = None
-
-    
 
         # Center textbox
         self.textbox = Center_textbox(self)
@@ -39,7 +32,6 @@ class App(tk.Tk):
         # score count 
         self.student_grade_counter = Student_grade_counter(self)
 
-       
         # Left listbox
         self.listbox = Student_list_frame(self)
         self.listbox.grid(column=0, row=1, sticky="nsew")
@@ -48,7 +40,6 @@ class App(tk.Tk):
         self.questions_frame = Questions_frame(self)
         self.questions_frame.grid(column=2, row=1, sticky="nsew")
 
- 
         #Configure grid
         self.rowconfigure(0, weight=1)
         self.rowconfigure(1, weight=10)
@@ -63,56 +54,45 @@ class App(tk.Tk):
         top_right_button_frame.grid(column=2, row=0)
 
         #exit app with esc        
-        self.bind('<Escape>', lambda e: self.destroy())
+        # self.bind('<Escape>', lambda e: self.destroy())
+        #this is dangerous lets remove
 
-    
-    def load_folder(self):
-        folder_path = filedialog.askdirectory()
-        if folder_path:
-            self.listbox.list_folder_content(folder_path)
-            return    
-    
-    def load_rubrics(self):
-        file = filedialog.askopenfile(mode ='r', filetypes =[('json files', '*.json')])
-        if file:
-            content = json.load(file)
-            for qi, q in enumerate(content["rubrics"]):
-                question = Question(qi)
-                self.questions[q] = question
-                for ri, rubric in enumerate(content["rubrics"][q]):
-                    rubric_ID = f"{qi}.{ri}"
-                    question.rubrics[rubric_ID] = Rubric(rubric_ID,
-                                                           content["rubrics"][q][rubric]["title"], 
-                                                            content["rubrics"][q][rubric]["points"])
-                question.total_points = sum([rubric.points for rubric in question.rubrics.values()])
-            self.max_points = sum([question.total_points for question in self.questions.values()])      
-            
-            self.questions_frame.place_rubrics()
-            return
-    
-    def get_student(self, student_id):
-        if student_id in self.students:
+    def init_variables(self):
+        self.students = {}
+        self.questions = {}
+        self.student_rubric_state = {}
+           
+    def update_students_questions(self):
+        for stu in self.students:
+            self.students[stu].set_questions(copy.deepcopy(self.questions_frame.questions))
+            self.students[stu].update()
+
+    def add_student(self, st):
+        # dictiorany of students based on unique id (ANR student number)
+        self.students[st.id] = st
+
+    def get_selected_student(self):
+        index = self.listbox.listbox.curselection()
+        if len(index)>0:
+            student_id = self.listbox.listbox.get(index)
             return self.students[student_id]
-        else:
-            print("student not found")
-        
-    
-    
-    def set_current_student(self, student_name):
-        if student_name not in self.students:
-            self.students[student_name] = Student(student_name)
-        
-        self.current_student = self.students[student_name]
+        return None
 
-        if self.questions and not self.current_student.questions:
-            self.current_student.questions = copy.deepcopy(self.questions)
-        return
+    def update_views(self, event):
+        #this is the main update function. Anything that happens (pick a student,
+        #change a rubric, etc) -> this function will be called to update everything.
+        #Note: this function will not initialize rubrics and questions per student.
 
-        # if self.questions and student_name not in self.student_rubric_state:
-        #     self.student_rubric_state[student_name] = {r_ID:None for q in self.questions.values() for r_ID in q.rubrics}
-        
-       
-    
+        #fetch selected student, we will need it to update the views.
+        selected_student = self.get_selected_student()
+
+        # if student selected
+        if selected_student:
+            selected_student.update() #check grades
+            self.listbox.update() #update the listbox
+            self.questions_frame.update_view(selected_student) #update questions/rubrics
+            self.student_grade_counter.update(selected_student) #update grade
+            self.textbox.update(selected_student)    
  
 
     # Iterates through questions and rubrics to save points per question and failed rubrics 
@@ -154,18 +134,6 @@ class App(tk.Tk):
             print("No one selected or already graded")
         print(self.current_student.points_per_question)
     
-
-    def update_questions_frame(self):
-        self.questions_frame.update_view(self.current_student)
-
-
-            # for rubric in tab.winfo_children():
-            #     print(rubric.pass_state)
-    
-    # def reset_rubrics(self):
-    #     self.questions_frame
-    
-
             
             
          

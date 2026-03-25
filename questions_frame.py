@@ -1,33 +1,55 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, filedialog
 from rubric_widget import *
+import json
+from question import *
+from rubric import *
 
 class Questions_frame(ttk.Frame):
     def __init__(self, container):
         super().__init__(container)
         self.container = container
         self.notebook = ttk.Notebook(self)
+        self.questions = {}
         self.notebook.grid(row=1, column=2, sticky="nsew")
-
 
         self.notebook.bind("<<NotebookTabChanged>>", self.set_currently_selected_question)
     
         
         self.score = 0
 
+    def load_rubrics(self):
+        file = filedialog.askopenfile(mode ='r', filetypes =[('json files', '*.json')])
+        if file:
+            content = json.load(file)
+            for qi, q in enumerate(content["rubrics"]):
+                question = Question(q)
+                self.questions[q] = question
+                for ri, rubric in enumerate(content["rubrics"][q]):
+                    rubric_title = content["rubrics"][q][rubric]["title"]
+                    rubric_points = content["rubrics"][q][rubric]["points"]
+                    rubric = Rubric(ri, rubric_title, rubric_points)
+                    question.add_rubric(rubric)
+
+            self.container.update_students_questions()
+            self.place_rubrics()
+            self.container.update_views(None)
+        else:
+            print('No file was selected')
+
     def place_rubrics(self):
         self.clear_frame()
-        questions = self.container.questions
-        for question in questions:
+        for question in self.questions:
+            question_id = self.questions[question].id
             row_index = 0
             column_index = 0
             
             question_frame = ttk.Frame(self.notebook)
             question_frame.grid()
             
-            self.notebook.add(question_frame, text=question)
+            self.notebook.add(question_frame, text=question_id)
             
-            rubrics = questions[question].rubrics 
+            rubrics = self.questions[question].rubrics 
             for rubric in rubrics.values():
                 rubric_title = rubric.title
                 points = rubric.points
@@ -35,7 +57,7 @@ class Questions_frame(ttk.Frame):
                     column_index += 1
                     row_index = 0
                 
-                Rubric_widget(rubric.rubric_ID, question, question_frame, self.container, rubric_title, points).grid(row=row_index, column=column_index, pady=10)
+                Rubric_widget(rubric.id, question_id, question_frame, self.container, rubric_title, points).grid(row=row_index, column=column_index, pady=10)
                 row_index += 1
            
     
@@ -55,12 +77,12 @@ class Questions_frame(ttk.Frame):
             tab_name = self.notebook.tab(tab_id,"text")
             frame = self.notebook.nametowidget(tab_id)
             for rubric in frame.winfo_children():
-                pass_state = student.questions[tab_name].rubrics[rubric.rubric_ID].pass_state
+                pass_state = student.questions[tab_name].rubrics[rubric.rubric_ID].passed
             
                 if pass_state == True:
-                    rubric.mark_pass()
+                    rubric.mark_pass(False)
                 elif pass_state == False:
-                    rubric.mark_fail()
+                    rubric.mark_fail(False)
                 elif pass_state is None:
                     rubric.reset()
 

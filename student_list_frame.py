@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, filedialog
 from center_text_box import *
 from student import *
 import os
@@ -19,22 +19,35 @@ class Student_list_frame(ttk.Frame):
 
         self.container = container
 
-    def list_folder_content(self, folder_path):
+    def load_students(self):
+        folder_path = filedialog.askdirectory()
+        if folder_path:
+            self.read_exam_files(folder_path)
+        else:
+            print("Did not select a folder.")
+
+    def read_exam_files(self, folder_path):
         files = os.listdir(folder_path)
+
         for file in files:
-            if file[-3:] == ".py":
-                self.listbox.insert("end", file)
-        self.listbox.bind('<<ListboxSelect>>', lambda e: (self.get_file_content(folder_path), self.get_student_name(), self.highlight_student(), self.update_questions_frame()))
+            #create a student object per exam file
+            st = Student(file, folder_path+'/'+file)
+            
+            # add that student to main's list of students ()
+            self.container.add_student(st)
+
+            # add the student to list box
+            self.listbox.insert("end", st.id) #only show id for anonymous grading
+
+        self.listbox.bind('<<ListboxSelect>>', self.container.update_views)
+
+    def update(self):
+        # print('updating student list frame!')
+        pass
+
+    
 
 
-
-    def get_file_content(self, folder):
-        selected_indice = self.listbox.curselection()
-        file_name = self.listbox.get(selected_indice)
-        selected_file_path = folder+"/"+file_name
-        with open(selected_file_path, 'r') as f:
-            content = f.read()
-            self.container.textbox.set_text(content)
         
     
     def get_student_name(self):
@@ -55,7 +68,3 @@ class Student_list_frame(ttk.Frame):
 
                 else:
                     pass
-   
-    def update_questions_frame(self):
-        self.container.update_questions_frame()         
-

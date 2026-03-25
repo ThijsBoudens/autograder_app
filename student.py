@@ -1,39 +1,52 @@
 class Student():
-    def __init__(self, name):
-        self.name = name
-        self.points_per_question = {}
-        self.failed_rubrics = {}
-        self.grade = None
-        self.been_graded = False
+    def __init__(self, path, full_path):
+        self.parse_path(path)
+        self.exam_path = path
+        self.full_path = full_path
+        self.grade = 0
+        self.max_grade = 0
         self.questions = {}
-        self.pending = False
-    
-    def set_grade(self):
-        total_points = 0
-        for point in self.points_per_question.values():
-            total_points += point
-        self.grade = total_points
-        
-    def set_points_per_question(self, question, points):
-        if question not in self.points_per_question:
-            self.points_per_question[question] = 0
-        self.points_per_question[question] += points
-        
+        self.graded = False
 
-    def set_failed_rubrics(self, question, failed_rubrics_list):
-        if question not in self.failed_rubrics:
-            self.failed_rubrics[question] = failed_rubrics_list
-        # self.failed_rubrics[question].append(rubric.rubric_title)
-        
-    def get_question(self,question_id):
-        if question_id in self.questions:
-            return self.questions[question_id]
-        else:
-            print("question not found")
+    def parse_path(self, path):
+        pathList = path.split('_')
+        self.name = pathList[2]
+        self.id = pathList[3]
+
+    def update(self):
+        for q in self.questions:
+            self.questions[q].update()
+        self.grade = self.calculate_grade()
+        self.max_grade = self.calculate_max_grade()
+        self.graded = self.check_if_graded()
+
+    def calculate_grade(self):
+        total = 0
+        for que in self.questions:
+            total+= self.questions[que].grade
+        return total
+
+    def calculate_max_grade(self):
+        total = 0
+        for que in self.questions:
+            total+= self.questions[que].max_grade
+        return total
+
+    def check_if_graded(self):
+        for que in self.questions:
+            if not self.questions[que].graded:
+                return False
+        return True
+
+    def get_content(self):
+        with open(self.full_path, 'r') as f:
+            content = f.read()
+            return content
     
     def set_questions(self, questions):
         self.questions = questions
-
+    
+  
     def return_record(self):
         record = f"{self.name}"
         for question in self.questions:

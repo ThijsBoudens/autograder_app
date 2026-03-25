@@ -7,17 +7,17 @@
 			}, 
 			"Rubric 2": {
 				"title": "<enter title here>",
-				"points": 2
+				"points": 5
 			}
 		}, 
 		"Question 2": {
 			"Rubric 1": {
 				"title": "is even number",
-				"points": 3
+				"points": 5
 			}, 
 			"Rubric 2": {
 				"title": "<enter title here>",
-				"points": 4
+				"points": 5
 			}
 		}
 	}

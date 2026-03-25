@@ -35,7 +35,8 @@ class Rubrics_container(ttk.Frame):
                 
                 Rubrics(question_frame, rubric_title, points).grid(row=row_index, column=column_index, pady=10)
                 row_index += 1
-           
+                
+
     
     def clear_frame(self):
         for tab_id in self.notebook.tabs():
