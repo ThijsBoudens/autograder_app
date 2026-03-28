@@ -82,6 +82,7 @@ class App(tk.Tk):
         #this is the main update function. Anything that happens (pick a student,
         #change a rubric, etc) -> this function will be called to update everything.
         #Note: this function will not initialize rubrics and questions per student.
+        self.listbox.update() #update the listbox
 
         #fetch selected student, we will need it to update the views.
         selected_student = self.get_selected_student()
@@ -89,7 +90,6 @@ class App(tk.Tk):
         # if student selected
         if selected_student:
             selected_student.update() #check grades
-            self.listbox.update() #update the listbox
             self.questions_frame.update_view(selected_student) #update questions/rubrics
             self.student_grade_counter.update(selected_student) #update grade
             self.textbox.update(selected_student)    
@@ -134,16 +134,9 @@ class App(tk.Tk):
             print("No one selected or already graded")
         print(self.current_student.points_per_question)
     
-            
-            
-         
 
-def on_resize(event):
-    pass
-#     print(f"Window resized to: {event.width}x{event.height}")
 
 if __name__=="__main__":
     app = App()
     app.geometry(f"{app.winfo_screenwidth()}x{app.winfo_screenheight()}")
-    app.bind("<Configure>", on_resize)
     app.mainloop()
