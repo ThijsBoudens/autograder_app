@@ -35,24 +35,26 @@ class Rubric_widget(ttk.Frame):
 
     #update=True. Set to False to avoid infinite loop (update views that update this that update views etc.)    
     def mark_pass(self, update=True):
-        self.pass_button.config(bg="chartreuse2")
-        self.fail_button.config(bg="SystemButtonFace")
-        self.pass_state = True
-        self.controller.get_selected_student().questions[self.question_ID].rubrics[self.rubric_ID].passed = self.pass_state
-        self.controller.get_selected_student().questions[self.question_ID].rubrics[self.rubric_ID].graded = True
+        if self.controller.get_selected_student():
+            self.pass_button.config(bg="chartreuse2")
+            self.fail_button.config(bg="SystemButtonFace")
+            self.pass_state = True
+            self.controller.get_selected_student().questions[self.question_ID].rubrics[self.rubric_ID].passed = self.pass_state
+            self.controller.get_selected_student().questions[self.question_ID].rubrics[self.rubric_ID].graded = True
 
-        if update:
-            self.controller.update_views(None)
+            if update:
+                self.controller.update_views(None)
 
     def mark_fail(self, update=True):
-        self.pass_button.config(bg="SystemButtonFace")
-        self.fail_button.config(bg="crimson")
-        self.pass_state = False
-        self.controller.get_selected_student().questions[self.question_ID].rubrics[self.rubric_ID].passed = self.pass_state
-        self.controller.get_selected_student().questions[self.question_ID].rubrics[self.rubric_ID].graded = True
-        if update:
-            self.controller.update_views(None)
-    
+        if self.controller.get_selected_student():
+            self.pass_button.config(bg="SystemButtonFace")
+            self.fail_button.config(bg="crimson")
+            self.pass_state = False
+            self.controller.get_selected_student().questions[self.question_ID].rubrics[self.rubric_ID].passed = self.pass_state
+            self.controller.get_selected_student().questions[self.question_ID].rubrics[self.rubric_ID].graded = True
+            if update:
+                self.controller.update_views(None)
+        
     def reset(self):
         self.pass_button.config(bg="SystemButtonFace")
         self.fail_button.config(bg="SystemButtonFace")
