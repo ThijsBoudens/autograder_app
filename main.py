@@ -15,6 +15,7 @@ import json
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
+        super().state('zoomed')
 
         self.init_visuals()
         self.init_variables()
@@ -78,64 +79,28 @@ class App(tk.Tk):
             return self.students[student_id]
         return None
 
-    def update_views(self, event):
+    def update_views(self, event, listbox=True, student=True, questions=True, grade=True, textbox=True):
         #this is the main update function. Anything that happens (pick a student,
         #change a rubric, etc) -> this function will be called to update everything.
         #Note: this function will not initialize rubrics and questions per student.
-        self.listbox.update() #update the listbox
+
+        if listbox:
+            self.listbox.update() #update the listbox
 
         #fetch selected student, we will need it to update the views.
         selected_student = self.get_selected_student()
 
         # if student selected
         if selected_student:
-            selected_student.update() #check grades
-            self.questions_frame.update_view(selected_student) #update questions/rubrics
-            self.student_grade_counter.update(selected_student) #update grade
-            self.textbox.update(selected_student)    
+            if student:
+                selected_student.update() #check grades
+            if questions:    
+                self.questions_frame.update(selected_student) #update questions/rubrics
+            if grade:
+                self.student_grade_counter.update(selected_student) #update grade
+            if textbox:
+                self.textbox.update(selected_student)    
  
-
-    # Iterates through questions and rubrics to save points per question and failed rubrics 
-    # This function also sets the student.been_graded attribute to True
-    # It also calculates the score and displays it at the top 
-    def set_results(self):
-        # check if currently selected student has already been graded
-        if self.current_student and self.current_student.been_graded == False:
-            max_points = 0
-            total_points = 0
-        # iterate through questions 
-            for question in self.questions:
-                points = 0
-                failed_rubrics = []
-                # iterate through rubrics 
-                for rubric in self.questions[question].rubrics:
-                    max_points += self.questions[question].rubrics[rubric].points
-    
-                    if self.current_student.questions[question].rubrics[rubric].pass_state == True:
-                        points += self.questions[question].rubrics[rubric].points
-                        total_points += self.questions[question].rubrics[rubric].points
-                    elif self.current_student.questions[question].rubrics[rubric].pass_state == False:
-                        failed_rubrics.append(self.current_student.questions[question].rubrics[rubric].rubric_ID)
-                    else:
-                        print("Not all rubrics have been graded.")
-                        break
-
-                self.current_student.set_points_per_question(question, points)
-                self.current_student.set_failed_rubrics(question, failed_rubrics)
-                
-                self.current_student.pending = False
-                self.current_student.been_graded = True
-                
-                self.student_grade_counter.display_student_grade(total_points, max_points)
-            self.current_student.set_grade()
-            print(self.current_student.return_record())
-
-        else:
-            print("No one selected or already graded")
-        print(self.current_student.points_per_question)
-    
-
-
 if __name__=="__main__":
     app = App()
     app.geometry(f"{app.winfo_screenwidth()}x{app.winfo_screenheight()}")

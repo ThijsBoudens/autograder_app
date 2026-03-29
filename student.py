@@ -45,11 +45,20 @@ class Student():
     
     def set_questions(self, questions):
         self.questions = questions
-    
+
+    def get_question_points(self,q):
+        return self.questions[q].grade
+
+    def get_failed_rubrics(self,q):
+        st = ''
+        for rub in self.questions[q].rubrics.values():
+            if rub.passed == False:
+                st+=f'{str(rub.id)} '
+        return st[:-1] #remove last space
   
-    def return_record(self):
-        record = f"{self.name}"
+    def get_record(self):
+        record = f"{self.name},"
         for question in self.questions:
-            record += f", {self.points_per_question[question]}, {self.failed_rubrics[question]}"
-        record +=  f", {sum(self.points_per_question.values())}"
+            record += f"{self.get_question_points(question)}, {self.get_failed_rubrics(question)},"
+        record+=f'{self.grade}' #total grade
         return record

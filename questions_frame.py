@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, filedialog
 from rubric_widget import *
 import json
+import copy
 from question import *
 from rubric import *
 
@@ -30,6 +31,8 @@ class Questions_frame(ttk.Frame):
                     rubric_points = content["rubrics"][q][rubric]["points"]
                     rubric = Rubric(ri, rubric_title, rubric_points)
                     question.add_rubric(rubric)
+                self.container.questions[q] = question
+
 
             self.container.update_students_questions()
             self.place_rubrics()
@@ -71,7 +74,7 @@ class Questions_frame(ttk.Frame):
         current_question = self.notebook.tab(tk.CURRENT)["text"]
         self.container.current_question = current_question   
    
-    def update_view(self, student):
+    def update(self, student):
         # student_rubric_state = self.container.student_rubric_state[student.name]
         for tab_id in self.notebook.tabs():
             tab_name = self.notebook.tab(tab_id,"text")

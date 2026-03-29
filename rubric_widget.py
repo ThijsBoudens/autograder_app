@@ -43,7 +43,7 @@ class Rubric_widget(ttk.Frame):
             self.controller.get_selected_student().questions[self.question_ID].rubrics[self.rubric_ID].graded = True
 
             if update:
-                self.controller.update_views(None)
+                self.controller.update_views(None, textbox=False)
 
     def mark_fail(self, update=True):
         if self.controller.get_selected_student():
@@ -53,7 +53,7 @@ class Rubric_widget(ttk.Frame):
             self.controller.get_selected_student().questions[self.question_ID].rubrics[self.rubric_ID].passed = self.pass_state
             self.controller.get_selected_student().questions[self.question_ID].rubrics[self.rubric_ID].graded = True
             if update:
-                self.controller.update_views(None)
+                self.controller.update_views(None, textbox=False)
         
     def reset(self):
         self.pass_button.config(bg="SystemButtonFace")
