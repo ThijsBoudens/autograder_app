@@ -2,21 +2,91 @@
 	"rubrics": {
 		"Question 1": {
 			"Rubric 1": {
-				"title": "is odd number",
+				"title": "return correct type",
 				"points": 5
 			}, 
 			"Rubric 2": {
-				"title": "<enter title here>",
+				"title": "make appropriate calculation",
+				"points": 5
+			},
+			"Rubric 3": {
+				"title": "make appropriate conditionals",
+				"points": 5
+			},
+			"Rubric 4": {
+				"title": "make appropriate loop",
 				"points": 5
 			}
 		}, 
 		"Question 2": {
 			"Rubric 1": {
-				"title": "is even number",
+				"title": "return correct type",
 				"points": 5
 			}, 
 			"Rubric 2": {
-				"title": "<enter title here>",
+				"title": "make appropriate calculation",
+				"points": 5
+			},
+			"Rubric 3": {
+				"title": "make appropriate conditionals",
+				"points": 5
+			},
+			"Rubric 4": {
+				"title": "make appropriate loop",
+				"points": 5
+			}
+		}, 
+		"Question 3": {
+			"Rubric 1": {
+				"title": "return correct type",
+				"points": 5
+			}, 
+			"Rubric 2": {
+				"title": "make appropriate calculation",
+				"points": 5
+			},
+			"Rubric 3": {
+				"title": "make appropriate conditionals",
+				"points": 5
+			},
+			"Rubric 4": {
+				"title": "make appropriate loop",
+				"points": 5
+			}
+		}, 
+		"Question 4": {
+			"Rubric 1": {
+				"title": "return correct type",
+				"points": 5
+			}, 
+			"Rubric 2": {
+				"title": "make appropriate calculation",
+				"points": 5
+			},
+			"Rubric 3": {
+				"title": "make appropriate conditionals",
+				"points": 5
+			},
+			"Rubric 4": {
+				"title": "make appropriate loop",
+				"points": 5
+			}
+		}, 
+		"Question 5": {
+			"Rubric 1": {
+				"title": "return correct type",
+				"points": 5
+			}, 
+			"Rubric 2": {
+				"title": "make appropriate calculation",
+				"points": 5
+			},
+			"Rubric 3": {
+				"title": "make appropriate conditionals",
+				"points": 5
+			},
+			"Rubric 4": {
+				"title": "make appropriate loop",
 				"points": 5
 			}
 		}

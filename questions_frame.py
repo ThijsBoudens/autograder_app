@@ -14,7 +14,7 @@ class Questions_frame(ttk.Frame):
         self.questions = {}
         self.notebook.grid(row=1, column=2, sticky="nsew")
 
-        self.notebook.bind("<<NotebookTabChanged>>", self.set_currently_selected_question)
+        # self.notebook.bind("<<NotebookTabChanged>>", self.set_currently_selected_question)
     
         
         self.score = 0
@@ -70,12 +70,11 @@ class Questions_frame(ttk.Frame):
             self.notebook.forget(tab_id)
             frame.destroy()
 
-    def set_currently_selected_question(self, event:tk.Event):
-        current_question = self.notebook.tab(tk.CURRENT)["text"]
-        self.container.current_question = current_question   
+    # def set_currently_selected_question(self, event:tk.Event):
+    #     current_question = self.notebook.tab(tk.CURRENT)["text"]
+    #     self.container.current_question = current_question   
    
     def update(self, student):
-        # student_rubric_state = self.container.student_rubric_state[student.name]
         for tab_id in self.notebook.tabs():
             tab_name = self.notebook.tab(tab_id,"text")
             frame = self.notebook.nametowidget(tab_id)
