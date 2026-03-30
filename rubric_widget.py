@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 from rubric_button import *
 
 class Rubric_widget(ttk.Frame):
@@ -44,6 +45,8 @@ class Rubric_widget(ttk.Frame):
 
             if update:
                 self.controller.update_views(None, textbox=False)
+        else:
+            messagebox.showerror("Error", "Please select a student first.")
 
     def mark_fail(self, update=True):
         if self.controller.get_selected_student():
@@ -54,6 +57,9 @@ class Rubric_widget(ttk.Frame):
             self.controller.get_selected_student().questions[self.question_ID].rubrics[self.rubric_ID].graded = True
             if update:
                 self.controller.update_views(None, textbox=False)
+        else:
+            messagebox.showerror("Error", "Please select a student first.")
+
         
     def reset(self):
         self.pass_button.config(bg="SystemButtonFace")

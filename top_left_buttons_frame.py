@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, filedialog
+from tkinter import messagebox
+
 
 class Top_left_buttons_frame(ttk.Frame):
     def __init__(self, container):
@@ -19,7 +21,10 @@ class Top_left_buttons_frame(ttk.Frame):
         self.container.listbox.load_students()
     
     def load_rubrics(self):
-        self.container.questions_frame.load_rubrics()
-    
+        if len(self.container.students)>0:
+            self.container.questions_frame.load_rubrics()
+        else:
+            messagebox.showerror("Error", "Please load exams first.")
+
 
 
