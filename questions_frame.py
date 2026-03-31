@@ -5,6 +5,7 @@ import json
 import copy
 from question import *
 from rubric import *
+import os
 
 class Questions_frame(ttk.Frame):
     def __init__(self, container):
@@ -20,7 +21,7 @@ class Questions_frame(ttk.Frame):
         self.score = 0
 
     def load_rubrics(self):
-        file = filedialog.askopenfile(mode ='r', filetypes =[('json files', '*.json')])
+        file = filedialog.askopenfile(mode ='r', filetypes =[('json files', '*.json')], initialdir=os.getcwd())
         if file:
             content = json.load(file)
             for qi, q in enumerate(content["rubrics"]):
@@ -74,6 +75,9 @@ class Questions_frame(ttk.Frame):
     #     current_question = self.notebook.tab(tk.CURRENT)["text"]
     #     self.container.current_question = current_question   
    
+    def reset(self):
+        self.notebook.select(0)
+
     def update(self, student):
         for tab_id in self.notebook.tabs():
             tab_name = self.notebook.tab(tab_id,"text")

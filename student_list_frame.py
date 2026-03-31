@@ -20,7 +20,7 @@ class Student_list_frame(ttk.Frame):
         self.container = container
 
     def load_students(self):
-        folder_path = filedialog.askdirectory()
+        folder_path = filedialog.askdirectory(initialdir=os.getcwd())
         if folder_path:
             self.read_exam_files(folder_path)
             self.container.update_views(None)
@@ -40,7 +40,7 @@ class Student_list_frame(ttk.Frame):
             # add the student to list box
             self.listbox.insert("end", st.id) #only show id for anonymous grading
 
-        self.listbox.bind('<<ListboxSelect>>', self.container.update_views)
+        self.listbox.bind('<<ListboxSelect>>', lambda event: self.container.update_views(event, reset_questions=True))
 
 
 

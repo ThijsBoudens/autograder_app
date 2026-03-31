@@ -79,13 +79,15 @@ class App(tk.Tk):
             return self.students[student_id]
         return None
 
-    def update_views(self, event, listbox=True, student=True, questions=True, grade=True, textbox=True):
+    def update_views(self, event, listbox=True, student=True, questions=True, grade=True, textbox=True, reset_questions=False):
         #this is the main update function. Anything that happens (pick a student,
         #change a rubric, etc) -> this function will be called to update everything.
         #Note: this function will not initialize rubrics and questions per student.
 
         if listbox:
             self.listbox.update() #update the listbox
+
+        
 
         #fetch selected student, we will need it to update the views.
         selected_student = self.get_selected_student()
@@ -99,7 +101,9 @@ class App(tk.Tk):
             if grade:
                 self.student_grade_counter.update(selected_student) #update grade
             if textbox:
-                self.textbox.update(selected_student)    
+                self.textbox.update(selected_student)   
+            if reset_questions:
+                self.questions_frame.reset() 
  
 if __name__=="__main__":
     app = App()
