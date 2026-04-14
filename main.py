@@ -15,7 +15,7 @@ import json
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
-        super().state('zoomed')
+        super().attributes('-zoomed', True)
 
         self.init_visuals()
         self.init_variables()
