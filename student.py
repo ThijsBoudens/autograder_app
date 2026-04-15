@@ -57,7 +57,7 @@ class Student():
         return st[:-1] #remove last space
   
     def get_record(self):
-        record = f"{self.name},"
+        record = f"{self.name},{self.id}"
         for question in self.questions:
             record += f"{self.get_question_points(question)}, {self.get_failed_rubrics(question)},"
         record+=f'{self.grade}' #total grade

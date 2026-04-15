@@ -14,7 +14,7 @@ class Top_right_buttons_frame(ttk.Frame):
 
 
     def export_csv(self):
-        firstLine = 'Last name,First name,'
+        firstLine = 'Last name,First name,ANR,'
         for q in self.container.questions.values():
             firstLine += f'{q.id},Rubrics,'
         firstLine+='Total'

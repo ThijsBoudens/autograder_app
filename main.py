@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, filedialog
+from tkinter import ttk, filedialog, messagebox
 import copy
 from top_left_buttons_frame import *
 from student_list_frame import * 
@@ -94,6 +94,9 @@ class App(tk.Tk):
 
         # if student selected
         if selected_student:
+            if len(self.questions) == 0:
+                messagebox.showerror("Error", "Please load rubrics first.")
+                return
             if student:
                 selected_student.update() #check grades
             if questions:    

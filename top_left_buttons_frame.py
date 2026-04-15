@@ -11,7 +11,7 @@ class Top_left_buttons_frame(ttk.Frame):
 
         ttk.Button(self, text="select\nexams\nfolder", width=(0.05*self.container.screen_width), command=self.load_exams).grid(column=0, row=0)
         ttk.Button(self, text="select\nrubrics\nfile", width=(0.05*self.container.screen_width), command=self.load_rubrics).grid(column=1, row=0)
-        ttk.Button(self, text="auto\ngrade", width=(0.05*self.container.screen_width)).grid(column=2, row=0)
+        ttk.Button(self, text="auto\ngrade", width=(0.05*self.container.screen_width), command=self.autograde).grid(column=2, row=0)
 
         for widget in self.winfo_children():
             widget.grid(ipadx=10, ipady=10, padx=10)
@@ -25,6 +25,9 @@ class Top_left_buttons_frame(ttk.Frame):
             self.container.questions_frame.load_rubrics()
         else:
             messagebox.showerror("Error", "Please load exams first.")
+
+    def autograde(self):
+        self.container.listbox.autograde()
 
 
 

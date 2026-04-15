@@ -3,6 +3,8 @@ from tkinter import ttk, filedialog
 from center_text_box import *
 from student import *
 import os
+import shutil
+import subprocess
 
 class Student_list_frame(ttk.Frame):
     def __init__(self, container):
@@ -27,7 +29,43 @@ class Student_list_frame(ttk.Frame):
         else:
             print("Did not select a folder.")
 
+    def fix_student_directory(self, folder_path):
+        #this function will pull all the student files from their subdirectories
+        #into root directory (folder_path) and delete the subdirectories afterwards.
+        for student_dir in os.listdir(folder_path):
+            for student_f in os.listdir(folder_path+'/'+student_dir):
+                # print(answer2)
+                shutil.copy(folder_path+'/'+student_dir + '/' + student_f, folder_path)
+                shutil.rmtree(folder_path+'/'+student_dir)
+
+
+        #afterwards, we remove spaces from file names to avoid issues
+        for student_file in os.listdir(folder_path):
+            oldname = folder_path+'/'+student_file
+            newname = oldname.replace(' ', '')
+            # print(newname)
+            os.rename(oldname, newname)
+
+    def convert_notebooks(self, file_path):
+        #this function will convert any .ipynb files to .py files.
+        #then it will delete the ipynb files.
+        toremove = []
+        for file in os.listdir(file_path):
+            if '.ipynb' in file:
+                fullpath = file_path + '/' + file
+                subprocess.run(['cmd', '/c', "jupyter nbconvert --to script "+fullpath])
+                py_name = fullpath.replace('.ipynb', '.py')
+                if os.path.isfile(py_name):
+                    toremove.append(fullpath)
+
+        for file in toremove:
+            os.remove(file)
+
     def read_exam_files(self, folder_path):
+
+        self.fix_student_directory(folder_path)
+        self.convert_notebooks(folder_path)
+
         files = os.listdir(folder_path)
 
         for file in files:
@@ -41,6 +79,18 @@ class Student_list_frame(ttk.Frame):
             self.listbox.insert("end", st.id) #only show id for anonymous grading
 
         self.listbox.bind('<<ListboxSelect>>', lambda event: self.container.update_views(event, reset_questions=True))
+
+
+    def autograde(self):
+        pass
+        # folder_path = filedialog.askdirectory(initialdir=os.getcwd())
+        # for student_folder in os.listdir(folder_path):
+        #     # print(answer)
+        #     for student_file in os.listdir(student_folder+'/'+student_file):
+        #         print(student_file)
+            #     # print(answer2)
+            #     shutil.copy(paris_cwd + '/ans_folders/'+answer + '/'+answer2, paris_cwd + '/ans')
+
 
 
 
