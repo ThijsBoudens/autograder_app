@@ -19,9 +19,10 @@ class Top_right_buttons_frame(ttk.Frame):
             firstLine += f'{q.id},Rubrics,'
         firstLine+='Total'
 
-        with open("results.csv", "w") as csvfile:
+        with open("results.csv", "w", encoding='utf-8') as csvfile:
             csvfile.write(firstLine+'\n')
             for student in self.container.students.values():
+                print(student.name)
                 student_record = student.get_record()
                 csvfile.write(student_record+'\n')
 

@@ -33,18 +33,20 @@ class Student_list_frame(ttk.Frame):
         #this function will pull all the student files from their subdirectories
         #into root directory (folder_path) and delete the subdirectories afterwards.
         for student_dir in os.listdir(folder_path):
-            for student_f in os.listdir(folder_path+'/'+student_dir):
-                # print(answer2)
-                shutil.copy(folder_path+'/'+student_dir + '/' + student_f, folder_path)
-                shutil.rmtree(folder_path+'/'+student_dir)
+            if os.path.isdir(folder_path+'/'+student_dir):
+                for student_f in os.listdir(folder_path+'/'+student_dir):
+                    # print(answer2)
+                    shutil.copy(folder_path+'/'+student_dir + '/' + student_f, folder_path)
+                    shutil.rmtree(folder_path+'/'+student_dir)
 
 
         #afterwards, we remove spaces from file names to avoid issues
         for student_file in os.listdir(folder_path):
-            oldname = folder_path+'/'+student_file
-            newname = oldname.replace(' ', '')
-            # print(newname)
-            os.rename(oldname, newname)
+            if ' ' in student_file:
+                oldname = folder_path+'/'+student_file
+                newname = oldname.replace(' ', '')
+                # print(newname)
+                os.rename(oldname, newname)
 
     def convert_notebooks(self, file_path):
         #this function will convert any .ipynb files to .py files.
