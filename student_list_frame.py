@@ -85,13 +85,11 @@ class Student_list_frame(ttk.Frame):
 
     def autograde(self):
         pass
-        # folder_path = filedialog.askdirectory(initialdir=os.getcwd())
-        # for student_folder in os.listdir(folder_path):
-        #     # print(answer)
-        #     for student_file in os.listdir(student_folder+'/'+student_file):
-        #         print(student_file)
-            #     # print(answer2)
-            #     shutil.copy(paris_cwd + '/ans_folders/'+answer + '/'+answer2, paris_cwd + '/ans')
+        #todo
+        #ask for questions/inputs/outputs json file
+        #do the autograding
+        #update students and rubrics
+        #check for timeouts (inf loops)
 
 
 
