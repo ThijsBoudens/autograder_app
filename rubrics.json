@@ -1,6 +1,7 @@
 {
 	"questions": {
 		"Question 1": {
+			"function_name": "balanced",
 			"rubrics":{
 				"Rubric 1": {
 					"title": "return correct type",
@@ -22,6 +23,7 @@
 
 		}, 
 		"Question 2": {
+			"function_name": "firstPrime",
 			"rubrics":{
 				"Rubric 1": {
 					"title": "return correct type",
@@ -42,6 +44,7 @@
 			}
 		}, 
 		"Question 3": {
+			"function_name": "alphabetical",
 			"rubrics":{
 				"Rubric 1": {
 					"title": "return correct type",
@@ -62,6 +65,7 @@
 			}
 		}, 
 		"Question 4": {
+			"function_name": "dinner",
 			"rubrics":{
 				"Rubric 1": {
 					"title": "return correct type",
@@ -82,6 +86,7 @@
 			}
 		}, 
 		"Question 5": {
+			"function_name": "standings",
 			"rubrics":{
 				"Rubric 1": {
 					"title": "return correct type",

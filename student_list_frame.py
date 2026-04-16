@@ -5,6 +5,11 @@ from student import *
 import os
 import shutil
 import subprocess
+import importlib
+import traceback
+import sys
+import copy
+import math
 
 class Student_list_frame(ttk.Frame):
     def __init__(self, container):
@@ -83,13 +88,27 @@ class Student_list_frame(ttk.Frame):
         self.listbox.bind('<<ListboxSelect>>', lambda event: self.container.update_views(event, reset_questions=True))
 
 
+
+
+        
+    #todo
+    #ask for questions/inputs/outputs json file
+    #do the autograding
+    #update students and rubrics
+    #check for timeouts (inf loops)
+
     def autograde(self):
-        pass
-        #todo
-        #ask for questions/inputs/outputs json file
-        #do the autograding
-        #update students and rubrics
-        #check for timeouts (inf loops)
+        file = filedialog.askopenfile(mode ='r', filetypes =[('python files', '*.py')], initialdir=os.getcwd())
+        module_name = file.name.split('/')[-1][:-3] #module name without .py
+        module = importlib.import_module(module_name)
+
+        fucntion_names = module.function_names
+        function_inputs = module.function_inputs
+        function_outputs = module.function_outputs
+
+        print(function_inputs)
+
+
 
 
 

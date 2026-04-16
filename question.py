@@ -5,6 +5,7 @@ class Question():
         self.grade = 0
         self.max_grade = 0
         self.id = question_ID
+        self.function_name = ''
 
 
     def add_rubric(self, rub):
