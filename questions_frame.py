@@ -24,12 +24,12 @@ class Questions_frame(ttk.Frame):
         file = filedialog.askopenfile(mode ='r', filetypes =[('json files', '*.json')], initialdir=os.getcwd())
         if file:
             content = json.load(file)
-            for qi, q in enumerate(content["rubrics"]):
+            for qi, q in enumerate(content["questions"]):
                 question = Question(q)
                 self.questions[q] = question
-                for ri, rubric in enumerate(content["rubrics"][q]):
-                    rubric_title = content["rubrics"][q][rubric]["title"]
-                    rubric_points = content["rubrics"][q][rubric]["points"]
+                for ri, rubric in enumerate(content["questions"][q]['rubrics']):
+                    rubric_title = content["questions"][q]['rubrics'][rubric]["title"]
+                    rubric_points = content["questions"][q]['rubrics'][rubric]["points"]
                     rubric = Rubric(ri, rubric_title, rubric_points)
                     question.add_rubric(rubric)
                 self.container.questions[q] = question
