@@ -1,9 +1,6 @@
 {
 	"questions": {
 		"Question 1": {
-			"function_name":"balanced",
-			"inputs": [["HellO Anna!"], ["a BALANCED() woooord?"]],
-			"outputs": [[false], [true]],
 			"rubrics":{
 				"Rubric 1": {
 					"title": "return correct type",
@@ -25,9 +22,6 @@
 
 		}, 
 		"Question 2": {
-			"function_name":"",
-			"inputs": [],
-			"outputs": [],
 			"rubrics":{
 				"Rubric 1": {
 					"title": "return correct type",
@@ -48,9 +42,6 @@
 			}
 		}, 
 		"Question 3": {
-			"function_name":"",
-			"inputs": [],
-			"outputs": [],
 			"rubrics":{
 				"Rubric 1": {
 					"title": "return correct type",
@@ -71,9 +62,6 @@
 			}
 		}, 
 		"Question 4": {
-			"function_name":"",
-			"inputs": [],
-			"outputs": [],
 			"rubrics":{
 				"Rubric 1": {
 					"title": "return correct type",
@@ -94,9 +82,6 @@
 			}
 		}, 
 		"Question 5": {
-			"function_name":"",
-			"inputs": [],
-			"outputs": [],
 			"rubrics":{
 				"Rubric 1": {
 					"title": "return correct type",
