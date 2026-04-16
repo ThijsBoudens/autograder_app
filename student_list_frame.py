@@ -45,13 +45,13 @@ class Student_list_frame(ttk.Frame):
                     shutil.rmtree(folder_path+'/'+student_dir)
 
 
-        #afterwards, we remove spaces from file names to avoid issues
+        #afterwards, we remove spaces and dots from file names to avoid issues
         for student_file in os.listdir(folder_path):
-            if ' ' in student_file:
-                oldname = folder_path+'/'+student_file
-                newname = oldname.replace(' ', '')
-                # print(newname)
-                os.rename(oldname, newname)
+            oldname = folder_path+'/'+student_file
+            newname = oldname.replace(' ', '')
+            newname = newname[:-3].replace(".", "") + ".py" 
+            # print(newname)
+            os.rename(oldname, newname)
 
     def convert_notebooks(self, file_path):
         #this function will convert any .ipynb files to .py files.
@@ -98,15 +98,23 @@ class Student_list_frame(ttk.Frame):
     #check for timeouts (inf loops)
 
     def autograde(self):
+
+        #tests file
         file = filedialog.askopenfile(mode ='r', filetypes =[('python files', '*.py')], initialdir=os.getcwd())
         module_name = file.name.split('/')[-1][:-3] #module name without .py
         module = importlib.import_module(module_name)
 
-        fucntion_names = module.function_names
-        function_inputs = module.function_inputs
-        function_outputs = module.function_outputs
+        tests = {
+            'fucntion_names' : module.function_names,
+            'function_inputs' : module.function_inputs,
+            'function_outputs' : module.function_outputs
+        }
 
-        print(function_inputs)
+        
+
+        for student in self.container.students.values():
+            student.autograde(tests)
+
 
 
 

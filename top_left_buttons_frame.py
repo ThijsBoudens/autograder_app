@@ -27,7 +27,10 @@ class Top_left_buttons_frame(ttk.Frame):
             messagebox.showerror("Error", "Please load exams first.")
 
     def autograde(self):
-        self.container.listbox.autograde()
+        if len(self.container.students)>0 and len(self.container.questions)>0:
+            self.container.listbox.autograde()
+        else:
+            messagebox.showerror("Error", "Please load exams and/or rubrics first.")
 
 
 

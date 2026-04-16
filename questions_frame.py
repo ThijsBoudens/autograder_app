@@ -28,7 +28,7 @@ class Questions_frame(ttk.Frame):
                 question = Question(q)
                 fname = content["questions"][q]["function_name"]
                 question.function_name = fname
-                print(question.function_name)
+                # print(question.function_name)
                 self.questions[q] = question
                 for ri, rubric in enumerate(content["questions"][q]['rubrics']):
                     rubric_title = content["questions"][q]['rubrics'][rubric]["title"]
