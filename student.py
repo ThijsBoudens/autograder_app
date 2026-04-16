@@ -74,11 +74,13 @@ class Student():
 
     def autograde(self, tests):
         root_folder = '/'.join(self.full_path.split('/')[:-1])
-        # sys.path.append(root_folder)
+        sys.path.append(root_folder)
         module_name = self.full_path.split('/')[-1][:-3] #module name without .py
         # print(module_name, os.getcwd())
         try:
             module = importlib.import_module(module_name)
 
-        except:
-            print("Error occured for ", self.name)
+        except Exception as e:
+            print("Error occured for ", self.name, ' \n------------------')
+            print(e)
+
