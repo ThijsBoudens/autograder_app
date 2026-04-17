@@ -14,17 +14,32 @@ class Questions_frame(ttk.Frame):
         self.notebook = ttk.Notebook(self)
         self.questions = {}
         self.notebook.grid(row=1, column=2, sticky="nsew")
+        self.rubrics_dir = None
 
         # self.notebook.bind("<<NotebookTabChanged>>", self.set_currently_selected_question)
     
         
         self.score = 0
 
-    def load_rubrics(self):
+    def load_rubrics(self, rubrics_dir = None):
         print('Loading rubrics...')
-        file = filedialog.askopenfile(mode ='r', filetypes =[('json files', '*.json')], initialdir=os.getcwd())
+        if not rubrics_dir:
+            file = filedialog.askopenfile(mode ='r', filetypes =[('json files', '*.json')], initialdir=os.getcwd())
+        else:
+            file = rubrics_dir
+
+        # print(file)
+        if isinstance(file, str):
+            self.rubrics_dir = file
+        else:
+            self.rubrics_dir = file.name
+
         if file:
-            content = json.load(file)
+            if isinstance(file, str):
+                f = open(file)
+                content = json.load(f)
+            else:
+                content = json.load(file)
             for qi, q in enumerate(content["questions"]):
                 question = Question(q)
                 fname = content["questions"][q]["function_name"]

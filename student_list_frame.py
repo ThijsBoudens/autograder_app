@@ -25,9 +25,12 @@ class Student_list_frame(ttk.Frame):
         self.scrollbar.config(command = self.listbox.yview)
 
         self.container = container
+        self.students_dir = None
 
-    def load_students(self):
-        folder_path = filedialog.askdirectory(initialdir=os.getcwd())
+    def load_students(self, folder_path=None):
+        if not folder_path:
+            folder_path = filedialog.askdirectory(initialdir=os.getcwd())
+        self.students_dir = folder_path
         if folder_path:
             self.read_exam_files(folder_path)
             self.container.update_views(None)
