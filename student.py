@@ -123,10 +123,7 @@ class Student():
                     res = func(*copy.deepcopy(inp))
                 else:
                     res = func(copy.deepcopy(inp))
-                if res == tests['function_outputs'][question.function_name][i]:
-                    print('CORRECT!')
-                else:
-                    print('FALSE!')
+                if res != tests['function_outputs'][question.function_name][i]:
                     question_pass = False
             except Exception as e:
                 print()
