@@ -21,6 +21,7 @@ class Questions_frame(ttk.Frame):
         self.score = 0
 
     def load_rubrics(self):
+        print('Loading rubrics...')
         file = filedialog.askopenfile(mode ='r', filetypes =[('json files', '*.json')], initialdir=os.getcwd())
         if file:
             content = json.load(file)
@@ -43,6 +44,7 @@ class Questions_frame(ttk.Frame):
             self.container.update_views(None)
         else:
             print('No file was selected')
+        print('Done loading rubrics.')
 
     def place_rubrics(self):
         self.clear_frame()

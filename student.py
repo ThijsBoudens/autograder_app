@@ -83,10 +83,10 @@ class Student():
 
 
     def autograde(self, tests):
+
         root_folder = '/'.join(self.full_path.split('/')[:-1])
         sys.path.append(root_folder)
         module_name = self.full_path.split('/')[-1][:-3] #module name without .py
-        # print(module_name, os.getcwd())
         print('Grading ', self.name, '\n')
         try:
             module = importlib.import_module(module_name)
@@ -101,23 +101,20 @@ class Student():
 
         except Exception as e:
             print()
-            print('----- error ------', self.name)
-            print(e)
-            print()
-
+            print('Error grading ', self.name)
+        print('Done grading ', self.name)
         # check inf loops
         # update grades and views
 
 
     def run_func(self, question, module, tests):
+        print('Running function ', question.function_name )
         question_pass = True
         try:
             func = getattr(module, question.function_name)
         except:
-            print('error loading function.')
+            print('Error loading function, ', question.function_name)
         for i, inp in enumerate(tests['function_inputs'][question.function_name]['args']):
-            # print(i, inp, tests['function_outputs'][question.function_name][i])
-            print(question.function_name, i)
             try:
                 if isinstance(inp, tuple):
                     res = func(*copy.deepcopy(inp))
@@ -127,8 +124,7 @@ class Student():
                     question_pass = False
             except Exception as e:
                 print()
-                print('error!')
-                print(e)
+                print('Error running function, ', question.function_name)
                 question_pass = False
-                print()
+        print('Done running function.')
         return question_pass

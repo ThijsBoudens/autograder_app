@@ -38,6 +38,7 @@ class Student_list_frame(ttk.Frame):
         #this function will pull all the student files from their subdirectories
         #into root directory (folder_path) and delete the subdirectories afterwards.
 
+        print('Fixing directories...')
         remove_pycache = False
         to_remove = ''
         for student_dir in os.listdir(folder_path):
@@ -60,10 +61,12 @@ class Student_list_frame(ttk.Frame):
             newname = newname[:-3].replace(".", "") + ".py" 
             # print(newname)
             os.rename(oldname, newname)
+        print('Done fixing.')
 
     def convert_notebooks(self, file_path):
         #this function will convert any .ipynb files to .py files.
         #then it will delete the ipynb files.
+        print('Converting notebooks to .py...')
         toremove = []
         for file in os.listdir(file_path):
             if '.ipynb' in file:
@@ -75,8 +78,11 @@ class Student_list_frame(ttk.Frame):
 
         for file in toremove:
             os.remove(file)
+        print('Done converting.')
 
     def read_exam_files(self, folder_path):
+
+        print('Reading exam files...')
 
         self.fix_student_directory(folder_path)
         self.convert_notebooks(folder_path)
@@ -95,7 +101,7 @@ class Student_list_frame(ttk.Frame):
 
         self.listbox.bind('<<ListboxSelect>>', lambda event: self.container.update_views(event, reset_questions=True))
 
-
+        print('Done reading exam files.')
 
 
         
@@ -106,7 +112,7 @@ class Student_list_frame(ttk.Frame):
     #check for timeouts (inf loops)
 
     def autograde(self):
-
+        print('Autograding students...')
         #tests file
         file = filedialog.askopenfile(mode ='r', filetypes =[('python files', '*.py')], initialdir=os.getcwd())
         module_name = file.name.split('/')[-1][:-3] #module name without .py
@@ -124,7 +130,7 @@ class Student_list_frame(ttk.Frame):
             student.autograde(tests)
         self.container.update_views(None)
 
-
+        print('Done autograding.')
 
 
 
