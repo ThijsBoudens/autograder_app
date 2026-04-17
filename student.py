@@ -77,10 +77,45 @@ class Student():
         sys.path.append(root_folder)
         module_name = self.full_path.split('/')[-1][:-3] #module name without .py
         # print(module_name, os.getcwd())
+        print('Grading ', self.name, '\n')
+        question_grades = []
         try:
             module = importlib.import_module(module_name)
 
-        except Exception as e:
-            print("Error occured for ", self.name, ' \n------------------')
-            print(e)
+            for q in self.questions.values():
+                function_result = self.run_func(q, module, tests)     
+                question_grades.append(function_result)     
 
+
+        except Exception as e:
+            print()
+            print('----- error ------', self.name)
+            print(e)
+            print()
+
+
+    def run_func(self, question, module, tests):
+        question_pass = True
+        try:
+            func = getattr(module, question.function_name)
+        except:
+            print('error loading function.')
+        for i, inp in enumerate(tests['function_inputs'][question.function_name]['args']):
+            # print(i, inp, tests['function_outputs'][question.function_name][i])
+            print(question.function_name, i)
+            try:
+                if isinstance(inp, tuple):
+                    res = func(*copy.deepcopy(inp))
+                else:
+                    res = func(copy.deepcopy(inp))
+                if res == tests['function_outputs'][question.function_name][i]:
+                    print('CORRECT!')
+                else:
+                    print('FALSE!')
+                    question_pass = False
+            except Exception as e:
+                print()
+                print('error!')
+                print(e)
+                print()
+        return question_pass

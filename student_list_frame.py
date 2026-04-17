@@ -37,13 +37,21 @@ class Student_list_frame(ttk.Frame):
     def fix_student_directory(self, folder_path):
         #this function will pull all the student files from their subdirectories
         #into root directory (folder_path) and delete the subdirectories afterwards.
-        for student_dir in os.listdir(folder_path):
-            if os.path.isdir(folder_path+'/'+student_dir):
-                for student_f in os.listdir(folder_path+'/'+student_dir):
-                    # print(answer2)
-                    shutil.copy(folder_path+'/'+student_dir + '/' + student_f, folder_path)
-                    shutil.rmtree(folder_path+'/'+student_dir)
 
+        remove_pycache = False
+        to_remove = ''
+        for student_dir in os.listdir(folder_path):
+            if 'pycache' in student_dir: #if we need to remove pycache
+                remove_pycache = True
+                to_remove = student_dir
+                continue
+                if os.path.isdir(folder_path+'/'+student_dir):
+                    for student_f in os.listdir(folder_path+'/'+student_dir):
+                        # print(answer2)
+                        shutil.copy(folder_path+'/'+student_dir + '/' + student_f, folder_path)
+                        shutil.rmtree(folder_path+'/'+student_dir)
+        if remove_pycache:
+            shutil.rmtree(folder_path+'/'+to_remove)
 
         #afterwards, we remove spaces and dots from file names to avoid issues
         for student_file in os.listdir(folder_path):
