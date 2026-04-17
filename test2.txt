@@ -1,0 +1,10 @@
+Milan 47
+Inter 67
+Juventus 56
+Roma 78
+Lazio 12
+Napoli 90
+Atalanta 49
+Livorno 89
+Parma 14
+Fiorentina 12

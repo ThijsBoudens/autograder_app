@@ -45,11 +45,11 @@ class Student_list_frame(ttk.Frame):
                 remove_pycache = True
                 to_remove = student_dir
                 continue
-                if os.path.isdir(folder_path+'/'+student_dir):
-                    for student_f in os.listdir(folder_path+'/'+student_dir):
-                        # print(answer2)
-                        shutil.copy(folder_path+'/'+student_dir + '/' + student_f, folder_path)
-                        shutil.rmtree(folder_path+'/'+student_dir)
+            if os.path.isdir(folder_path+'/'+student_dir):
+                for student_f in os.listdir(folder_path+'/'+student_dir):
+                    # print(answer2)
+                    shutil.copy(folder_path+'/'+student_dir + '/' + student_f, folder_path)
+                    shutil.rmtree(folder_path+'/'+student_dir)
         if remove_pycache:
             shutil.rmtree(folder_path+'/'+to_remove)
 
@@ -122,7 +122,7 @@ class Student_list_frame(ttk.Frame):
 
         for student in self.container.students.values():
             student.autograde(tests)
-
+        self.container.update_views(None)
 
 
 

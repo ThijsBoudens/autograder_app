@@ -65,11 +65,21 @@ class Student():
         return st[:-1] #remove last space
   
     def get_record(self):
-        record = f"{self.name},{self.id}"
+        record = f"{self.name},{self.id},"
         for question in self.questions:
             record += f"{self.get_question_points(question)}, {self.get_failed_rubrics(question)},"
         record+=f'{self.grade}' #total grade
         return record
+
+    def autograde_pass(self, question):
+        for rubric in question.rubrics.values():
+            rubric.graded = True
+            rubric.passed = True
+
+    def autograde_fail(self, question):
+        for rubric in question.rubrics.values():
+            rubric.graded = True
+            rubric.passed = False
 
 
     def autograde(self, tests):
@@ -78,20 +88,25 @@ class Student():
         module_name = self.full_path.split('/')[-1][:-3] #module name without .py
         # print(module_name, os.getcwd())
         print('Grading ', self.name, '\n')
-        question_grades = []
         try:
             module = importlib.import_module(module_name)
 
             for q in self.questions.values():
                 function_result = self.run_func(q, module, tests)     
-                question_grades.append(function_result)     
-
+                if function_result: #if pass
+                    self.autograde_pass(q)
+                else:
+                    self.autograde_fail(q)
+                self.update()
 
         except Exception as e:
             print()
             print('----- error ------', self.name)
             print(e)
             print()
+
+        # check inf loops
+        # update grades and views
 
 
     def run_func(self, question, module, tests):
@@ -117,5 +132,6 @@ class Student():
                 print()
                 print('error!')
                 print(e)
+                question_pass = False
                 print()
         return question_pass
