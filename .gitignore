@@ -5,3 +5,5 @@ results.csv
 /test2
 /ans
 /ans_folders
+*.pickle
+*.csv

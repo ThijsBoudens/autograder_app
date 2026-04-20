@@ -36,7 +36,8 @@ class Questions_frame(ttk.Frame):
             self.rubrics_dir = file.name
 
         if file:
-            module_name = file.name.split('/')[-1][:-3] #module name without .py
+
+            module_name = self.rubrics_dir.split('/')[-1][:-3] #module name without .py
             module = importlib.import_module(module_name)
 
             test_cases = module.test_cases

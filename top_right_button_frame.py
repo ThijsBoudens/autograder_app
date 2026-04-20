@@ -51,6 +51,7 @@ class Top_right_buttons_frame(ttk.Frame):
         print('Done loading.')
 
     def export_csv(self):
+        print('Exporting to csv...')
         firstLine = 'Last name,First name,ANR,'
         for q in self.container.questions.values():
             firstLine += f'{q.id},Rubrics,'
@@ -62,6 +63,7 @@ class Top_right_buttons_frame(ttk.Frame):
                 # print(student.name)
                 student_record = student.get_record()
                 csvfile.write(student_record+'\n')
+        print('Done exporting.')
 
 
 
