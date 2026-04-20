@@ -82,7 +82,7 @@ class Student():
             rubric.passed = False
 
 
-    def autograde(self, tests):
+    def autograde(self):
 
         root_folder = '/'.join(self.full_path.split('/')[:-1])
         sys.path.append(root_folder)
@@ -92,7 +92,7 @@ class Student():
             module = importlib.import_module(module_name)
 
             for q in self.questions.values():
-                function_result = self.run_func(q, module, tests)     
+                function_result = self.run_func(q, module)     
                 if function_result: #if pass
                     self.autograde_pass(q)
                 else:
@@ -102,25 +102,26 @@ class Student():
         except Exception as e:
             print()
             print('Error grading ', self.name)
+            print(e)
         print('Done grading ', self.name)
         # check inf loops
         # update grades and views
 
 
-    def run_func(self, question, module, tests):
+    def run_func(self, question, module):
         print('Running function ', question.function_name )
         question_pass = True
         try:
             func = getattr(module, question.function_name)
         except:
             print('Error loading function, ', question.function_name)
-        for i, inp in enumerate(tests['function_inputs'][question.function_name]['args']):
+        for i, inp in enumerate(question.inputs):
             try:
                 if isinstance(inp, tuple):
                     res = func(*copy.deepcopy(inp))
                 else:
                     res = func(copy.deepcopy(inp))
-                if res != tests['function_outputs'][question.function_name][i]:
+                if res != question.outputs[i]:
                     question_pass = False
             except Exception as e:
                 print()

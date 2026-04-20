@@ -6,6 +6,7 @@ import copy
 from question import *
 from rubric import *
 import os
+import importlib
 
 class Questions_frame(ttk.Frame):
     def __init__(self, container):
@@ -24,7 +25,7 @@ class Questions_frame(ttk.Frame):
     def load_rubrics(self, rubrics_dir = None):
         print('Loading rubrics...')
         if not rubrics_dir:
-            file = filedialog.askopenfile(mode ='r', filetypes =[('json files', '*.json')], initialdir=os.getcwd())
+            file = filedialog.askopenfile(mode ='r', filetypes =[('python files', '*.py')], initialdir=os.getcwd())
         else:
             file = rubrics_dir
 
@@ -35,20 +36,23 @@ class Questions_frame(ttk.Frame):
             self.rubrics_dir = file.name
 
         if file:
-            if isinstance(file, str):
-                f = open(file)
-                content = json.load(f)
-            else:
-                content = json.load(file)
-            for qi, q in enumerate(content["questions"]):
+            module_name = file.name.split('/')[-1][:-3] #module name without .py
+            module = importlib.import_module(module_name)
+
+            test_cases = module.test_cases
+
+            for q in test_cases:
                 question = Question(q)
-                fname = content["questions"][q]["function_name"]
+                fname = test_cases[q]['function_name']
                 question.function_name = fname
+                question.inputs = test_cases[q]['inputs']
+                question.outputs = test_cases[q]['outputs']
+
                 # print(question.function_name)
                 self.questions[q] = question
-                for ri, rubric in enumerate(content["questions"][q]['rubrics']):
-                    rubric_title = content["questions"][q]['rubrics'][rubric]["title"]
-                    rubric_points = content["questions"][q]['rubrics'][rubric]["points"]
+                for ri, rubric in enumerate(test_cases[q]['rubrics']):
+                    rubric_title = test_cases[q]['rubrics'][rubric]["title"]
+                    rubric_points = test_cases[q]['rubrics'][rubric]["points"]
                     rubric = Rubric(ri, rubric_title, rubric_points)
                     question.add_rubric(rubric)
                 self.container.questions[q] = question

@@ -116,21 +116,9 @@ class Student_list_frame(ttk.Frame):
 
     def autograde(self):
         print('Autograding students...')
-        #tests file
-        file = filedialog.askopenfile(mode ='r', filetypes =[('python files', '*.py')], initialdir=os.getcwd())
-        module_name = file.name.split('/')[-1][:-3] #module name without .py
-        module = importlib.import_module(module_name)
-
-        tests = {
-            'fucntion_names' : module.function_names,
-            'function_inputs' : module.function_inputs,
-            'function_outputs' : module.function_outputs
-        }
-
         
-
         for student in self.container.students.values():
-            student.autograde(tests)
+            student.autograde()
         self.container.update_views(None)
 
         print('Done autograding.')

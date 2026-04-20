@@ -6,6 +6,8 @@ class Question():
         self.max_grade = 0
         self.id = question_ID
         self.function_name = ''
+        self.inputs = None
+        self.outputs = None
 
 
     def add_rubric(self, rub):
