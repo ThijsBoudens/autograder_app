@@ -1,16 +1,15 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import copy
-from top_left_buttons_frame import *
-from student_list_frame import * 
-from center_text_box import *
-from top_right_button_frame import *
-from questions_frame import *
-from student_grade_counter import *
-from student import *
-from question import *
-from rubric import *
-import json
+from Top_left_buttons_frame import *
+from Student_list_frame import * 
+from Center_text_box import *
+from Top_right_button_frame import *
+from Questions_frame import *
+from Student_grade_counter import *
+from Student import *
+from Question import *
+from Rubric import *
 
 class App(tk.Tk):
     def __init__(self):
@@ -32,6 +31,7 @@ class App(tk.Tk):
 
         # score count 
         self.student_grade_counter = Student_grade_counter(self)
+        self.student_grade_counter.grid(column=1, row=0)
 
         # Left listbox
         self.listbox = Student_list_frame(self)
@@ -47,16 +47,13 @@ class App(tk.Tk):
         self.columnconfigure((0,1,2), weight=1)
 
         # Top left buttons 
-        top_left_button_frame = Top_left_buttons_frame(self)
-        top_left_button_frame.grid(column=0, row=0)
+        self.top_left_button_frame = Top_left_buttons_frame(self)
+        self.top_left_button_frame.grid(column=0, row=0)
 
         # Top right buttons
-        top_right_button_frame = Top_right_buttons_frame(self)
-        top_right_button_frame.grid(column=2, row=0)
+        self.top_right_button_frame = Top_right_buttons_frame(self)
+        self.top_right_button_frame.grid(column=2, row=0)
 
-        #exit app with esc        
-        # self.bind('<Escape>', lambda e: self.destroy())
-        #this is dangerous lets remove
 
     def init_variables(self):
         self.students = {}

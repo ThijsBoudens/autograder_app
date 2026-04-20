@@ -5,6 +5,7 @@ import sys
 import copy
 from collections import Counter
 import math
+from tkinter import messagebox
 
 class Student():
     def __init__(self, path, full_path):
@@ -15,6 +16,7 @@ class Student():
         self.max_grade = 0
         self.questions = {}
         self.graded = False
+        self.confirmed = False
 
     def parse_path(self, path):
         pathList = path.split('_')
@@ -45,6 +47,12 @@ class Student():
             if not self.questions[que].graded:
                 return False
         return True
+
+    def confirm_grade(self):
+        if self.check_if_graded():
+            self.confirmed = True
+        else:
+            messagebox.showerror("Error", "Please grade all rubrics first.")
 
     def get_content(self):
         with open(self.full_path, 'r') as f:

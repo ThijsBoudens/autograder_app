@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from rubric_button import *
+from Rubric_button import *
 
 class Rubric_widget(ttk.Frame):
     def __init__(self, rubric_ID, question_ID, container, controller, rubric_title, points):

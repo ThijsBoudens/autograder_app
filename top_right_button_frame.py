@@ -22,6 +22,24 @@ class Top_right_buttons_frame(ttk.Frame):
         for widget in self.winfo_children():
             widget.grid(ipadx=10, ipady=10, padx=10)
 
+    def autosave(self):
+        if len(self.container.students)>0 and len(self.container.questions)>0:
+            print('Autosaving...')
+            big_dict = {
+                'students': self.container.students,
+                'exams_dir': self.container.listbox.students_dir,
+                'rubrics_dir': self.container.questions_frame.rubrics_dir
+            }
+            # print(big_dict)
+            fname = 'autosave/'+ datetime.datetime.now().strftime('%Y-%m-%d_%H%M%S')+ '.pickle'
+            if not os.path.exists('autosave'):
+                os.makedirs('autosave')
+            with open(fname, 'wb') as pkl:
+                pickle.dump(big_dict, pkl, protocol=pickle.HIGHEST_PROTOCOL)
+        else:
+            messagebox.showerror("Error", "Please load exams and/or rubrics first.")
+        print('Done autosave.')
+
     def save(self):
         if len(self.container.students)>0 and len(self.container.questions)>0:
             print('Saving...')

@@ -1,10 +1,10 @@
 import tkinter as tk
 from tkinter import ttk, filedialog
-from rubric_widget import *
+from Rubric_widget import *
 import json
 import copy
-from question import *
-from rubric import *
+from Question import *
+from Rubric import *
 import os
 import importlib
 

@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, filedialog
-from center_text_box import *
-from student import *
+from Student import *
 import os
 import shutil
 import subprocess
@@ -107,16 +106,10 @@ class Student_list_frame(ttk.Frame):
         print('Done reading exam files.')
 
 
-        
-    #todo
-    #ask for questions/inputs/outputs json file
-    #do the autograding
-    #update students and rubrics
-    #check for timeouts (inf loops)
 
     def autograde(self):
         print('Autograding students...')
-        
+
         for student in self.container.students.values():
             student.autograde()
         self.container.update_views(None)
@@ -130,7 +123,7 @@ class Student_list_frame(ttk.Frame):
         # give green background to graded students
         for i, student_ID in enumerate(self.listbox.get(0, tk.END)):
             student = self.container.students[student_ID]
-            if student.graded:
+            if student.confirmed:
                 self.listbox.itemconfig(i, {"bg":"chartreuse1"})
             else:
                 self.listbox.itemconfig(i, {"bg":"DarkGoldenRod1"})
